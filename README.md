@@ -74,3 +74,23 @@ Spring Type Converter 학습
 2. 필요하면 `X > Y` 타입으로 변환하는 Converter 인터페이스를 만들고, 또 `Y > X` 타입으로 변환하는 Converter 인터페이스를 만들어서 등록하면 된다.
     - 예를 들어서 문자열로 `"true"`가 오면 `Boolean` 타입으로 받고 싶으면 `String > Boolean` 타입으로 변환되도록 Converter 인터페이스를 만들어서 등록하고, 반대로 적용하고
       싶으면 `Boolean > String` 타입으로 변환되도록 Converter 인터페이스를 추가로 만들어서 등록하면 된다.
+3. 그런데 이렇게 타입 Converter를 하나하나 직접 사용하면, 개발자가 직접 컨버팅 하는 거 ㅅ과 큰 차이가 없다.
+    - 따라서 타입 Converter를 등록하고 관리하면서 편리하게 변환 기능을 제공하는 역할을 하는 무언가가 필요하다.
+    - `ConversionService`
+
+### 용도에 따른 다양한 타입 컨버터
+
+1. Converter: 기본 타입 컨버터
+2. ConverterFactory: 전체 클래스 계층 구조가 필요할 때
+3. GenericConverter: 정교한 구현, 대상 필드의 애노테이션 정보 사용 가능
+4. ConditionalGenericConverter: 특정 조건이 참인 경우에만 실행
+
+### 참고
+
+1. 스프링은 문자, 숫자, Boolean, Enum 등 일반적인 타입에 대한 대부분의 컨버터를 기본으로 제공한다.
+    - `Converter`, `ConverterFactory`, `GenericConverter`의 구현체를 찾아보면 수 많은 컨버터를 확인할 수 있다.
+
+## ConversionService
+
+1. 
+   
