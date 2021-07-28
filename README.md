@@ -92,5 +92,31 @@ Spring Type Converter 학습
 
 ## ConversionService
 
-1. 
+1. 타입 Converter를 하나하나 직접 찾아서 타입 변환에 사용하는 것은 매우 불편하다.
+2. 스프링은 개별 Converter를 모아두고 그것들을 묶어서 편리하게 사용할 수 있는 기능을 제공하는데, 이것이 바로 `ConversionService`이다.
+3. ConversionService는 단순히 컨버팅이 가능한지 확인하는 기능과, 컨버팅 기능을 제공한다.
+   ```java
+   DefaultConversionService conversionService = new DefaultConversionService();
+   conversionService.addConverter(new StringToIntegerConverter());
+   conversionService.addConverter(new IntegerToStringConverter());
+   conversionService.addConverter(new StringToIpPortConverter());
+   conversionService.addConverter(new IpPortToStringConverter());
    
+   //문자 값을 숫자 값으로 변환하는 경우(StringToIntegerConverter가 동작)
+   Integer result = conversionService.convert("10", Integer.class);
+   ```
+4. 위 예제 코드에서 사용한 `DefaultConversionService`는 ConversionService 인터페이스를 구현했는데, 추가로 Converter를 등록하는 기능도 제공한다.
+
+### 인터페이스 분리 원칙 - ISP(Interface Segregation Principal)
+
+1. 인터페이스 분리 원칙은 클라이언트가 자신이 이용하지 않는 메소드가 의존하지 않아야 한다.
+    - DefaultConversionService는 다음 두 인터 페이스를 구현했다.
+        - ConversionService: 컨버터 사용에 초점
+        - ConverterRegistry: 컨버터 등록에 초점
+    - 이렇게 인터페이스를 분리하면 컨버터를 사용하는 클라이언트와 컨버터를 등록하고 관리하는 클라이언트의 관심사를 명확하게 분리할 수 있다.
+        - 특히 컨버터를 사용하는 클라이언트는 ConversionService만 의존하면 되므로, 컨버터를 어떻게 등록하고 관리하는지는 전혀 몰라도 된다.
+        - 결과적으로 컨버터를 사용하는 클라이언트는 꼭 필요한 메소드만 알면 된다. 이렇게 인터페이스를 분리하는 것을 ISP라 한다.
+
+## 스프링에 Converter 적용하기
+
+1. 
