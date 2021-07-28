@@ -119,4 +119,12 @@ Spring Type Converter 학습
 
 ## 스프링에 Converter 적용하기
 
-1. 
+1. 스프링은 내부에서 `ConversionService`를 제공한다.
+2. 개발자가 직접 구현한 컨버터를 추가 등록하고 싶은 경우 `WebMvcConfigurer`가 제공하는 `addFormatter()`를 사용해서 추가하고 싶은 컨버터를 등록하면 된다.
+    - 이렇게 하면 스프링은 내부에서 사용하는 `ConversionService`에 컨버터를 추가해준다.
+3. 스프링은 내부에서 수 많은 기본 컨버터들을 제공하는데, 동일 기능을 하는 컨버터가 추가 등록되 었다 `추가한 컨버터가 기본 컨버터 보다 높은 우선순위를 가진다.`
+
+### 처리 과정
+
+1. `@RequestParam`은 `@RequestParam`을 처리하는 `ArgumentResolver`인 `RequestParamArgumentResolver`에서 `ConversionService`를 사용해서
+   타입을 변환한다.
