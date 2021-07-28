@@ -163,3 +163,21 @@ public class ConverterController {
 
 1. 타임리프의 `th:field`는 id, name를 출력하는 등 다양한 기능이 있는데, 여기에 ConversionService도 함께 적용된다.
 
+## 포맷터 - Formatter
+
+1. `Converter`는 입력과 출력 타입에 제한이 없는 범용 타입 변환 기능을 제공한다.
+2. 객체를 특정한 포맷에 맞추어 문자로 출력하거나, 또는 그 반대의 역할을 하는 것에 특화된 기능이 바로 `Formatter`이다.
+    - 화면에 숫자를 출력해야 하는데, `Integer > String` 출력 시점에 `숫자 1000 > 문자 "1,000"` 이렇게 1000 단위에 쉼표를 넣을 때
+    - 날짜 객체를 문자인 "2021-01-01 10:50:11"와 같이 출력하거나 그 반대인 상황일 때
+
+### Converter VS Formatter
+
+1. Converter는 범용(객체 > 객체)
+2. Formatter는 문자에 특화(객체 > 문자, 문자 > 객체) + 현지화(Locale)
+    - Converter의 특별한 버전
+
+### 포맷터 만들기
+
+1. 포맷터는 객체를 문자로 변환하고, 문자를 객체로 변환하는 두 가지 기능을 모두 수행한다.
+    - String print(T object, Locale locale): 객체를 문자로 변환한다.
+    - T parse(String text, Locale locale): 문자를 객체로 변환한다.
