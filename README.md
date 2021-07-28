@@ -128,3 +128,38 @@ Spring Type Converter 학습
 
 1. `@RequestParam`은 `@RequestParam`을 처리하는 `ArgumentResolver`인 `RequestParamArgumentResolver`에서 `ConversionService`를 사용해서
    타입을 변환한다.
+
+## 뷰 템플릿에 컨버터 적용하기
+
+1. 타임리프는 렌더링 시에 컨버터를 적용해서 렌더링 하는 방법을 편리하게 지원한다.
+2. 타임리프에서 `${{...}}`를 사용하면 자동으로 `ConversionService`를 사용해서 변환된 결과를 출력한다.
+    - 물론 스프링과 통합되어 스프링이 제공하는 ConversionService를 사용하므로, 개발자가 추가로 등록한 컨버터들을 사용할 수 있다.
+    - 타임리프 변수 표현식: `${...}`
+    - 타임리프 ConversionService 적용: `${{...}}`
+
+### 참고
+
+   ```java
+
+@Controller
+public class ConverterController {
+
+    @GetMapping("/converter-view")
+    public String converterView(Model model) {
+        model.addAttribute("number", 10000);
+        model.addAttribute("ipPort", new IpPort("127.0.0.1", 8080));
+
+        return "converter-view";
+    }
+}
+   ```
+
+1. 뷰 템플릿은 데이터를 문자로 출력한다. 따라서 다음과 같이 컨버터를 적용하게 되면 Integer 타입인 10000을 String으로 변환하는 컨버터를 실행하게 된다.
+    - 여기서는 `IntegerToStringConverter`가 적용된다.
+2. 뷰 템플릿은 데이터를 문자로 출력한다. 따라서 다음과 같이 컨버터를 적용하게 되면 IpPort 타입을 String으로 변환하는 컨버터를 실행하게 된다.
+    - 여기서는 `IpPortToStringConverter`가 적용된다.
+
+### 폼에 이용하기
+
+1. 타임리프의 `th:field`는 id, name를 출력하는 등 다양한 기능이 있는데, 여기에 ConversionService도 함께 적용된다.
+
