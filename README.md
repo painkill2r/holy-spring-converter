@@ -169,6 +169,7 @@ public class ConverterController {
 2. 객체를 특정한 포맷에 맞추어 문자로 출력하거나, 또는 그 반대의 역할을 하는 것에 특화된 기능이 바로 `Formatter`이다.
     - 화면에 숫자를 출력해야 하는데, `Integer > String` 출력 시점에 `숫자 1000 > 문자 "1,000"` 이렇게 1000 단위에 쉼표를 넣을 때
     - 날짜 객체를 문자인 "2021-01-01 10:50:11"와 같이 출력하거나 그 반대인 상황일 때
+    - 현지화 적용
 
 ### Converter VS Formatter
 
@@ -181,3 +182,20 @@ public class ConverterController {
 1. 포맷터는 객체를 문자로 변환하고, 문자를 객체로 변환하는 두 가지 기능을 모두 수행한다.
     - String print(T object, Locale locale): 객체를 문자로 변환한다.
     - T parse(String text, Locale locale): 문자를 객체로 변환한다.
+
+### 포맷터를 지원하는 ConversionService
+
+1. ConversionService에는 컨버터만 등록할 수있 고, 포맷터를 등록할 수는 없다. 그런데 생각해보면 포맷터는 객체 > 문자, 문자 > 객체로 변환하는 특별한 컨버터일 뿐이다.
+2. 포맷터를 지원하는 ConversionService를 사용하면 ConversionService에 포맷터를 추가할 수 있다.
+    - 내부에서 어댑터 패턴을 사용해서 Foramtter가 Converter처럼 동작하도록 지원한다.
+    - `FormattingConversionService`
+2. `FormattingConversionService`는 포맷터를 지원하는 ConversionService이다.
+    - 포맷터 말고도 컨버터도 추가할 수 있다.
+        - `FormattingConversionService` 내부적으로 `ConversionService`를 구현하고 있기 때문이다.
+    - 사용시에는 `DefaultFormattingConversionService`를 사용하면 된다.
+        - `DefaultFormattingConversionService`는 `FormattingConversionService` 에 기본적인 통화, 숫자 관련 몇가지 기본 포맷터를 추가해서 제공한다.
+        - 사용할 때는 ConversionService가 제공하는 `convert()`를 사용하면 된다.
+3. (참고)스프링 부트는 DefaultFormattingConversionService를 상속받은 `WebConversionService`를 내부에서 사용한다.
+
+### 포맷터 적용하기
+1. 
