@@ -206,3 +206,14 @@ public class ConverterController {
     - `@DateTimeFormat`: 날짜 관련 형식 지정 포맷터 사용
         - `Jsr310DateTimeFormatAnnotationFormatterFactory`
     - [https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#formatCustomFormatAnnotations](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#formatCustomFormatAnnotations])
+
+## 정리
+
+1. `ConversionService`는 `MessageConverter(HttpMessageConverter)`가 동작할 때에는 적용되지 않는다.
+2. 특히 객체를 JSON으로 변환할 때 MessageConverter를 사용하면서 이 부분을 많이 오해하는데, HttpMessageConverter의 역할은 HTTP 메시지 바디의 내용을 객체로 변환하거나, 객체를
+   HTTP 메시지 바디에 입력하는 것이다.
+    - 예를 들어, JSON을 객체로 변환하는 MessageConverter는 내부에서 `Jakson` 같은 라이브러리를 사용한다.
+    - 객체를 JSON으로 변한다면 그 결과는 라이브러리에 달린 것이다.
+3. 따라서 JSON 결과로 만들어지는 숫자나 날짜 포맷을 변경하고 싶으면, 해당 라이브러리가 제공하는 설정을 통해서 포맷을 지정해야 한다.
+    - `결과적으로 ConversionService와 전혀 관계가 없다.`
+4. ConversionService는 `@RequestParam`, `@ModelAttribute`, `@PathVariable`, `뷰 템플릿` 등 웹 애플리케이션 개발에서 사용할 수 있다.
