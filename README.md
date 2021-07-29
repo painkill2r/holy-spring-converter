@@ -17,13 +17,6 @@ Spring Type Converter 학습
         - Lombok
 4. Build Tools : Gradle
 
-## API 예외 처리
-
-1. 지금까지 HTML을 사용한 오류 페이지는 단순히 고객에게 오류 화면을 보여주고 끝이 났다.
-    - 4xx, 5xx HTTML 오류 페이지
-2. 하지만 API는 각 오류 상황에 맞는 `오류 응답 스펙`을 정하고, JSON으로 데이터를 내려주어야 한다.
-    - 클라이언트는 정상 요청이든, 오류 요청이든 JSON이 반환되기를 기대한다.
-
 ## 스프링 타입 컨버터
 
 1. 문자를 숫자로 변환하거나, 반대로 숫자를 문자로 변환해야 하는 것 처럼 애플리케이션을 개발하다 보면 타입을 변환해야 하는 경우가 상당히 많다.
@@ -198,4 +191,6 @@ public class ConverterController {
 3. (참고)스프링 부트는 DefaultFormattingConversionService를 상속받은 `WebConversionService`를 내부에서 사용한다.
 
 ### 포맷터 적용하기
-1. 
+
+1. (주의)동일한 기능을 하는 컨버터, 포맷터가 있는 경우 컨버터가 적용이된다.
+    - 우선순위: `컨버터 > 포맷터`

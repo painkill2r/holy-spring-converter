@@ -28,6 +28,7 @@ public class HelloController {
 
     /**
      * 스프링이 제공하는 @RequestParam 어노테이션을 사용하여 요청 파라미터 타입 변환
+     * 컨버터, 포맷터 적용
      *
      * @param data
      * @return
